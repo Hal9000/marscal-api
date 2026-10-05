@@ -83,3 +83,11 @@ Relevant server audit account:
 - gymnos-audit@gymnos.media
 - Read-only; no sudo.
 - Another Cloud Agent may not possess the private key. Ask before assuming access.
+
+Planned server location: /opt/apps/marscal-api
+Runtime: systemd-managed Puma
+User: hal9000
+Bind: 127.0.0.1:4567
+Apache already proxies marscalendar.org/api to that port.
+Do not modify the static /var/www/marscalendar site except eventually correcting the form action.
+Include deployment instructions, but do not deploy without approval.
