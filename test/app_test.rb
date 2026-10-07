@@ -20,6 +20,10 @@ class MarscalApiTest < Minitest::Test
     assert last_response.ok?
     assert_equal "text/html", last_response.media_type
     assert_includes last_response.body, "Mars Calendar API"
+    get "/user"
+
+    assert last_response.ok?
+    assert_includes last_response.body, "Mars Calendar API"
   end
 
   def test_now_returns_marsdate_json
@@ -64,6 +68,14 @@ class MarscalApiTest < Minitest::Test
     assert_equal 400, last_response.status
     assert_equal "text/html", last_response.media_type
     assert_includes last_response.body, "Error:"
+  end
+
+  def test_human_earth_to_mars
+    get "/user/e2m", edate: "2026-10-07"
+
+    assert last_response.ok?
+    assert_equal "text/html", last_response.media_type
+    assert_includes last_response.body, "Result is:"
   end
 
   def test_human_now
