@@ -40,45 +40,24 @@ Time parameters are optional and default to midnight. Martian input times use
 Mars eXtended Time (MXT). Invalid parameters return HTTP 400; unexpected
 failures return HTTP 500 without exposing exception details.
 
-## Deployment guide
+## Deployment with Gymnos
 
-These are instructions only. Deploying the service and changing the live
-server require explicit approval.
-
-The planned location is `/opt/apps/marscal-api`, running as `hal9000`. After
-checking out a release:
+To create and deploy the service:
 
 ```sh
-cd /opt/apps/marscal-api
-bundle config set --local without test
-bundle install
-RACK_ENV=production bundle exec puma -C config/puma.rb
+new service marscal-api marscalendar.org /api SOURCE
+deploy service marscal-api
 ```
 
-Production mode binds Puma only to `127.0.0.1:4567`, where the existing Apache
-`/api` proxy expects it.
+Gymnos copies the runtime files listed in `manifest.txt` to
+`/opt/apps/marscal-api`, assigns the production `PORT`, and starts Puma with
+`RACK_ENV=production`. The Puma configuration reads `PORT` and binds only to
+`127.0.0.1`; port 4567 remains the default for local or manual use.
 
-An example systemd unit:
+Gymnos configures Apache to expose the service beneath `/api` and strips that
+prefix before proxying, so the application routes remain rooted at `/`. In
+particular, the form's relative `action="convert_e2m"` resolves externally to
+`/api/convert_e2m`.
 
-```ini
-[Unit]
-Description=Mars Calendar API
-After=network.target
-
-[Service]
-Type=simple
-User=hal9000
-WorkingDirectory=/opt/apps/marscal-api
-Environment=RACK_ENV=production
-Environment=PATH=/home/hal9000/.rbenv/shims:/home/hal9000/.rbenv/bin:/usr/local/bin:/usr/bin:/bin
-ExecStart=/home/hal9000/.rbenv/shims/bundle exec puma -C config/puma.rb
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Install and start that unit only after approval. Apache should continue serving
-the static site and proxying only `/api`; this service does not require changes
-to `/var/www/marscalendar`.
+These are deployment instructions only; they do not indicate that a live
+deployment has occurred.

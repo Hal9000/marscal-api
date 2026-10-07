@@ -1,0 +1,5 @@
+app.rb
+config.ru
+config/
+Gemfile
+Gemfile.lock
