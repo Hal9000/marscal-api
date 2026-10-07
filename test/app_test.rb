@@ -20,7 +20,6 @@ class MarscalApiTest < Minitest::Test
     assert last_response.ok?
     assert_equal "text/html", last_response.media_type
     assert_includes last_response.body, "Mars Calendar API"
-
     get "/user"
 
     assert last_response.ok?
