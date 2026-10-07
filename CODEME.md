@@ -47,14 +47,8 @@ Known old-code problem:
 The form currently submits to /convert_e2m. Externally, it must submit to /api/convert_e2m, or use a relative action that resolves there.
 
 MarsDate dependency:
-- RubyGems contains only old MarsDate 1.1.7 from 2019.
-- Current MarsDate source identifies itself as 2.0.0.
-- It has not been published as a gem or tagged as a release.
-- Use the Git repository pinned to this exact commit:
-
-    gem "marsdate",
-        git: "https://github.com/Hal9000/MarsDate.git",
-        ref: "e65761a33217df445fec9a89d4450ea3171d7f9f"
+- MarsDate 2.0.1 is published on RubyGems.
+- Use the published gem pinned to version 2.0.1.
 
 MarsDate 2.0 notes:
 - It already implements as_json and to_json. Do not monkeypatch them.
